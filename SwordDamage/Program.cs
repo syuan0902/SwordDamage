@@ -25,8 +25,9 @@ namespace SwordDamage
 
                 m_swordDamageCount.SetFlameSword(m_Input == '2' || m_Input == '3');
 
-                Console.WriteLine("\n3顆骰子擲出了 " + m_3Roll + "總傷害為 " + m_swordDamageCount.m_totalDamage + "HP\n");
+                Console.WriteLine("\n3顆骰子共擲出了 " + m_3Roll + "點");
+                Console.WriteLine("總傷害為 " + m_swordDamageCount.m_totalDamage + "HP\n");
             }
         }
-    }
+    } 
 }
