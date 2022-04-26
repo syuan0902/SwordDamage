@@ -8,43 +8,83 @@ namespace SwordDamage
 {
     class SwordDamageCount
     {
+        private const int BASE_DAMAGE = 3;
+        private const int FLAME_DAMAGE = 2;
 
-        public const int m_baseDamage = 3;
-        public const int m_flameSwordDamage = 2;
+        //支援欄位
+        private int roll;
+        private bool magic;
+        private bool flaming;
 
-        public int m_roll;
-        public decimal m_magicMultiplier = 1m;
-        public int m_flameDamage = 0;
-        public int m_totalDamage;
+        public int Damage { get; private set; }
 
-        public void CalculateDamage()
+        /// <summary>
+        /// 建構式會用預設的Magic與Flaming
+        /// 並使用3d6擲法來計算傷害
+        /// </summary>
+        /// <param name="startingRoll">開始擲3d6</param>
+        public SwordDamageCount(int startingRoll)
         {
-            m_totalDamage = (int)(m_roll * m_magicMultiplier) + m_baseDamage + m_flameDamage;
-        }
-
-        public void SetMagic(bool isMagic)
-        {
-            if (isMagic)
-            {
-                m_magicMultiplier = 1.75m;
-            }
-
-            else
-            {
-                m_magicMultiplier = 1m;
-            }
-
+            roll = startingRoll;
             CalculateDamage();
         }
 
-        public void SetFlameSword(bool isFlameSword)
+        /// <summary>
+        /// 設定或取得3d6擲法
+        /// </summary>
+        public int Roll
         {
-            CalculateDamage();
-
-            if (isFlameSword)
+            get { return roll; }
+            set
             {
-                m_totalDamage += m_flameSwordDamage;
+                roll = value;
+                CalculateDamage();
             }
+
+        }
+
+        /// <summary>
+        /// 如果是魔法劍，則是true，否則是false
+        /// </summary>
+        public bool Magic
+        {
+            get { return magic; }
+            set
+            {
+                if (value)
+                {
+                    magic = value;
+                    CalculateDamage();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 如果是火焰劍，則是true，否則是false
+        /// </summary>
+        public bool Flaming
+        {
+            get { return flaming; }
+            set
+            {
+                flaming = value;
+                CalculateDamage();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void CalculateDamage()
+        {
+            decimal m_magicMultiplier = 1m;
+            if (Magic) m_magicMultiplier = 1.75m;
+
+            Damage = BASE_DAMAGE;
+
+            Damage = (int)(Roll * m_magicMultiplier) + BASE_DAMAGE;
+
+            if (Flaming) Damage += FLAME_DAMAGE;
         }
     }
 }
